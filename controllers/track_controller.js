@@ -62,7 +62,7 @@ exports.create = function (req, res) {
 	// Esta url debe ser la correspondiente al nuevo fichero en tracks.cdpsfy.es
 
 	//var url ='/TODO';
-	var url = '';
+	var url = 'http://10.1.1.1/tracks/';
 
 	//var urlPostTracks = 'http://localhost:3000/tracks';
 	var buffer = track.buffer;
@@ -84,7 +84,7 @@ exports.create = function (req, res) {
 			console.log('body: ' + body);
 			models.Track.create({
 				name: name,
-				url: body,
+				url: url + body,
 			}).then(function(){
 				res.redirect('/tracks');
 			})
