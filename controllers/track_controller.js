@@ -11,11 +11,10 @@ exports.load = function(req,res,next,trackId){
 			req.track = track;
 			next();
 		} else{
-			next(new Error('No existe trackId=' + trackId));
+			next(new Error('No existe trackId: ' + trackId));
 		}
 	}).catch(function(error){next(error)});
 };
-
 
 // Devuelve una lista de las canciones disponibles y sus metadatos
 exports.list = function (req, res) {
@@ -35,8 +34,6 @@ exports.show = function (req, res) {
 	models.Track.findById(req.params.trackId).then(function(track){
 		res.render('tracks/show', {track: track, errors:[]});
 	})
-
-
 };
 
 // Escribe una nueva canción en el registro de canciones.
@@ -45,6 +42,8 @@ exports.show = function (req, res) {
 // - Escribir en el registro la verdadera url generada al añadir el fichero en el servidor tracks.cdpsfy.es
 exports.create = function (req, res) {
 	var track = req.files.track;
+
+	var urlPostTracks = 'http://www.tracks.cdpsfy.es/api/tracks';
 
 	// Comprobamos que hay un track seleccionado
 	if (track == undefined) {
@@ -65,7 +64,7 @@ exports.create = function (req, res) {
 	//var url ='/TODO';
 	var url = '';
 
-	var urlPostTracks = 'http://localhost:3000/tracks';
+	//var urlPostTracks = 'http://localhost:3000/tracks';
 	var buffer = track.buffer;
 
 	//POST para guardar la cancion en el tracks
@@ -98,16 +97,15 @@ exports.create = function (req, res) {
 // - Eliminar en tracks.cdpsfy.es el fichero de audio correspondiente a trackId
 exports.destroy = function (req, res) {
 	var trackId = req.params.trackId;
-	
+
+	var URLdestroyTracks = 'http://www.tracks.cdpsfy.es/api/tracks/'+ trackId;
 	
 	models.Track.findById(req.params.trackId).then(function(track){
 		var nombre = track.url
 		console.log('Nombre: ' + nombre);
 		console.log('Id de la cancion ' + nombre + ' es: ' + track.id);
 		
-		
-		
-		request.del('http://localhost:3000/tracks/' + nombre);
+		request.del(URLdestroyTracks + nombre);
 		
 		track.destroy().then(function(){
 			res.redirect('/tracks');
