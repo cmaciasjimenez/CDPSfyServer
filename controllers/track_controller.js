@@ -43,7 +43,7 @@ exports.show = function (req, res) {
 exports.create = function (req, res) {
 	var track = req.files.track;
 
-	var urlPostTracks = 'http://www.tracks.cdpsfy.es/api/tracks';
+	var urlPostTracks = 'http://10.1.1.1/tracks';
 
 	// Comprobamos que hay un track seleccionado
 	if (track == undefined) {
@@ -98,7 +98,7 @@ exports.create = function (req, res) {
 exports.destroy = function (req, res) {
 	var trackId = req.params.trackId;
 
-	var URLdestroyTracks = 'http://www.tracks.cdpsfy.es/api/tracks/'+ trackId;
+	var URLdestroyTracks = 'http://10.1.1.1/tracks/'+ trackId;
 	
 	models.Track.findById(req.params.trackId).then(function(track){
 		var nombre = track.url
