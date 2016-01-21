@@ -4,7 +4,6 @@ var fs = require('fs');
 var request = require('request');
 var models =require('../models/models.js')
 
-
 exports.load = function(req,res,next,trackId){
 	models.Track.find(trackId).then(function(track){
 		if(track){
@@ -105,13 +104,10 @@ exports.destroy = function (req, res) {
 		console.log('Nombre: ' + nombre);
 		console.log('Id de la cancion ' + nombre + ' es: ' + track.id);
 		
-		request.del(URLdestroyTracks + nombre);
+		request.del(nombre);
 		
 		track.destroy().then(function(){
 			res.redirect('/tracks');
 		});
-		
-	});
-
-			
+	});	
 };
